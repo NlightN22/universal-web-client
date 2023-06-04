@@ -1,3 +1,2 @@
-import { LoginWidget } from './ui/index'
+export { AuthByPhoneFeature } from './ui/AuthByPhoneFeature'
 
-export const AuthByPhoneFeature = LoginWidget

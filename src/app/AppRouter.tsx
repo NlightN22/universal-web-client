@@ -15,7 +15,7 @@ const AppRouter: FC = () => {
             )}
             <Route key={Date.now()} path="*" element={<Navigate to={TEST_ROUTE} replace /> }/>
         </Routes>
-    );
-};
+    )
+}
 
 export default AppRouter;

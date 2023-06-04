@@ -1,4 +1,4 @@
-import {HeaderActionProps} from "../../features/header/header";
+import {HeaderActionProps} from "../../widget/HeaderAction";
 
 export const testHeaderLinks: HeaderActionProps =
     {

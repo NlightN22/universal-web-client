@@ -1,13 +1,17 @@
 import React, {useState} from 'react';
 import {
-    AppShell, Grid, Navbar,
-    useMantineTheme, Text, MediaQuery,
-    Aside, Footer, Burger, Header
+    AppShell,
+    useMantineTheme, Text,
+    Container
 } from "@mantine/core";
 import {useHotkeys} from "@mantine/hooks";
-import {HeaderAction} from "../../features/header/header";
 import './mock'
 import {testHeaderLinks} from "./mock";
+import FloatingLabelInput from "../../shared/components/inputs/FloatingLabelInput/FloatingLabelInput";
+import {LeftSideBar} from "../../widget/LeftSideBar";
+import {RightSideBar} from "../../widget/RightSideBar";
+import {AppFooter} from "../../widget/AppFooter";
+import { HeaderAction } from '../../widget/HeaderAction';
 
 const TestPage = () => {
     const bgColor = useMantineTheme().colors.gray[2]
@@ -28,25 +32,22 @@ const TestPage = () => {
             navbarOffsetBreakpoint="sm"
             asideOffsetBreakpoint="sm"
             navbar={
-                <Navbar p="md" hiddenBreakpoint="sm" hidden={!openLeft} width={{sm: 200, lg: 300}}>
-                    <Text>Application navbar</Text>
-                </Navbar>
+                <LeftSideBar visible={openLeft}  />
             }
             aside={
-                <Aside p="md" hiddenBreakpoint="sm" width={{sm: 200, lg: 300}} hidden={!openRight}>
-                    <Text>Application sidebar</Text>
-                </Aside>
+                <RightSideBar visible={openRight} />
             }
             footer={
-                <Footer height={60} p="md">
-                    Application footer
-                </Footer>
+                <AppFooter />
             }
             header={
-                <HeaderAction links={testHeaderLinks.links} />
+                <HeaderAction links={testHeaderLinks.links}/>
             }
         >
-            <Text>Resize app to see responsive navbar in action</Text>
+            <Container fluid>
+                <Text>Resize app to see responsive navbar in action</Text>
+                <FloatingLabelInput label="Test label" placeholder="Test placeholder"/>
+            </Container>
         </AppShell>
     );
 };

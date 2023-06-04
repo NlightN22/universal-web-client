@@ -1,7 +1,8 @@
-import React, {ReactNode, useState} from 'react';
+import React, {FC, ReactNode, useState} from 'react';
 import {Burger, createStyles, Header, rem, Menu, Center, Container, Group} from "@mantine/core";
 import {useDisclosure} from "@mantine/hooks";
-import UserMenu from "../../shared/components/menu/UserMenu/UserMenu";
+import UserMenu from "../shared/components/menu/UserMenu/UserMenu";
+import { IconPhotoOff } from '@tabler/icons-react';
 
 const HEADER_HEIGHT = rem(60)
 
@@ -46,18 +47,11 @@ const useStyles = createStyles((theme) => ({
 }))
 
 export interface HeaderActionProps {
-    links: { link: string; label: string; links: { link: string; label: string }[] }[];
+    links: { link: string; label: string; links: { link: string; label: string }[] }[],
+    logo?: JSX.Element
 }
 
-function MantineLogo(props: { size: number }) {
-    return null
-}
-
-function Button(props: { h: number, radius: string, children: ReactNode }) {
-    return null
-}
-
-export function HeaderAction({ links }: HeaderActionProps) {
+export const HeaderAction = ({ links, logo = <IconPhotoOff /> }: HeaderActionProps) => {
     const { classes } = useStyles();
     const [opened, { toggle }] = useDisclosure(false)
     const items = links.map((link) => {
@@ -101,7 +95,7 @@ export function HeaderAction({ links }: HeaderActionProps) {
             <Container className={classes.inner} fluid>
                 <Group>
                     <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" />
-                    <MantineLogo size={28} />
+                    {logo}
                 </Group>
                 <Group spacing={5} className={classes.links}>
                     {items}
