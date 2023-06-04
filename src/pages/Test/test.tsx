@@ -11,13 +11,12 @@ import FloatingLabelInput from "../../shared/components/inputs/FloatingLabelInpu
 import {LeftSideBar} from "../../widget/LeftSideBar";
 import {RightSideBar} from "../../widget/RightSideBar";
 import {AppFooter} from "../../widget/AppFooter";
-import { HeaderAction } from '../../widget/HeaderAction';
+import {HeaderAction} from '../../widget/HeaderAction';
 
 const TestPage = () => {
-    const bgColor = useMantineTheme().colors.gray[2]
     const theme = useMantineTheme();
-    const [openLeft, setOpenLeft] = useState(false);
-    const [openRight, setOpenRight] = useState(false);
+    const [openLeft, setOpenLeft] = useState(true);
+    const [openRight, setOpenRight] = useState(true);
     useHotkeys([
         ['ctrl+1', () => setOpenLeft(!openLeft)],
         ['ctrl+2', () => setOpenRight(!openRight)]
@@ -29,16 +28,16 @@ const TestPage = () => {
                     background: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
                 },
             }}
-            navbarOffsetBreakpoint="sm"
-            asideOffsetBreakpoint="sm"
             navbar={
-                <LeftSideBar visible={openLeft}  />
+                <LeftSideBar visible={openLeft}/>
             }
+/*
             aside={
-                <RightSideBar visible={openRight} />
+                <RightSideBar visible={openRight}/>
             }
+*/
             footer={
-                <AppFooter />
+                <AppFooter/>
             }
             header={
                 <HeaderAction links={testHeaderLinks.links}/>

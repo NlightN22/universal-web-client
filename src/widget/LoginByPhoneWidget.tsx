@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Divider, Group, LoadingOverlay, PasswordInput, Space, Text, useMantineTheme} from "@mantine/core";
 import {AppTextInput} from "../shared/components/inputs";
-import AppButton from "../shared/components/buttons/AppButton/AppButton";
+import {AppButton} from "../shared/components/buttons/AppButton/AppButton";
 import {useForm, UseFormReturnType} from "@mantine/form";
 import { IconPhotoOff } from '@tabler/icons-react';
 

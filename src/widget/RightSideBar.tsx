@@ -7,7 +7,7 @@ interface RightSideBarProps {
 
 export const RightSideBar = ({visible}: RightSideBarProps) => {
     return (
-        <Aside p="md" hiddenBreakpoint="sm" width={{sm: 200, lg: 300}} hidden={!visible}>
+        <Aside p="md" width={{sm: 200, lg: 300}}>
             <Text>Application sidebar</Text>
         </Aside>
     );

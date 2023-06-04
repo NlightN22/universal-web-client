@@ -1,11 +1,18 @@
 import {Button, ButtonProps, createStyles, MantineTheme, useMantineTheme} from '@mantine/core';
-import React from 'react';
+import React, {MouseEventHandler} from 'react';
+
+interface AppButtonProps extends ButtonProps {
+    onClick?: () => void
+}
 
 
-const AppButton = (props: ButtonProps) => {
+export const AppButton = (props: AppButtonProps) => {
     return (
-        <Button radius="lg" {...props} />
-    );
-};
+        <Button
+            {...props}
+            radius="lg"
+            onClick={props.onClick}
+        />
+    )
+}
 
-export default AppButton;
