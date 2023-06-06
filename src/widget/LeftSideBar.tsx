@@ -1,27 +1,45 @@
-import React, {useEffect, useState} from 'react';
-import {createStyles, Navbar, px, rem, Text, useMantineTheme} from "@mantine/core";
+import React, {useEffect, useRef} from 'react';
+import {createStyles, Navbar, px, Text, useMantineTheme} from "@mantine/core";
 import {AppButton} from "../shared/components/buttons/AppButton/AppButton";
 import {showInfo} from "../shared/components/notifications/info";
+import {useDisclosure} from "@mantine/hooks";
+import {IconArrowBadgeRight} from '@tabler/icons-react';
 
 interface LeftSideBarProps {
-    visible?: boolean,
+    isHidden: (isHidden: boolean) => void
 }
 
-const useStyles = createStyles((theme, {_visible}: { _visible: boolean }) => ({
+const useStyles = createStyles((theme,
+                                {visible}: { visible: boolean }) => ({
     navbar: {
         transition: 'transform 0.3s ease-in-out',
-        transform: _visible ? 'translateX(0)' : 'translateX(-100%)',
+        transform: visible ? 'translateX(0)' : 'translateX(-100%)',
     },
     button: {
+        display: "flex",
         flexDirection: "column",
-        writingMode: 'vertical-rl',
-        textOrientation: 'mixed',
-        transform: 'rotate(90deg)'
+        listStyle: "none",
+        margin: "0",
+        padding: "0",
+        paddingLeft: "0.7em",
+        position: "fixed",
+        left: "-1em",
+        top: "50%",
+        height: "5em",
+        width: "2.5em",
+        transition: 'transform 0.3s ease-in-out',
+        transform: !visible ? 'translateX(0)' : 'translateX(-100%)',
+
+        ul: {
+            paddingLeft: "0em"
+        }
     }
 }))
 
-const getMantineSize = (size: string) => {
-    const numberMatch = size.match(/(\d+(\.\d+)?)(?=em)/)
+const useMantineSize = (size: string) => {
+    const theme = useMantineTheme()
+    const hideSize = theme.fn.smallerThan(size)
+    const numberMatch = hideSize.match(/(\d+(\.\d+)?)(?=em)/)
 
     if (numberMatch) {
         const number = Number(numberMatch[0])
@@ -31,27 +49,42 @@ const getMantineSize = (size: string) => {
     }
 }
 
-export const LeftSideBar = ({visible}: LeftSideBarProps) => {
-    const theme = useMantineTheme()
-    const hideSize = theme.fn.smallerThan("sm")
-    const sizePx = getMantineSize(hideSize)
+export const LeftSideBar = ({isHidden}: LeftSideBarProps) => {
+    const sizePx = useMantineSize("sm")
+    const [visible, {open, close}] = useDisclosure(window.innerWidth > sizePx);
+    const manualVisible: React.MutableRefObject<null | boolean> = useRef(null)
 
-    const [_visible, setVisible] = useState(() => window.innerWidth > sizePx)
+    const navbarRef = useRef<HTMLElement>(null)
+
+    const {classes} = useStyles({visible})
+
+    const handleClickVisible = (state: boolean) => {
+        console.log("change state:", state)
+        manualVisible.current = state
+        if (state) open()
+        else close()
+    }
 
     useEffect(() => {
-        if (visible) setVisible(visible)
+        console.log("visible:", visible)
+        isHidden(!visible)
     }, [visible])
 
-    const {classes} = useStyles({_visible})
+    useEffect(() => {
+        console.log("manualVisible.current", manualVisible.current)
+    }, [manualVisible.current])
+
 
     useEffect(() => {
         const checkWindowSize = () => {
-            if (window.innerWidth <= sizePx && _visible) {
-                setVisible(false)
+            if (window.innerWidth <= sizePx && visible) {
+                // setVisible(false)
+                close()
                 showInfo("invisible")
             }
-            if (window.innerWidth > sizePx && !_visible) {
-                setVisible(true)
+            if (window.innerWidth > sizePx && !visible && manualVisible.current === null) {
+                // setVisible(true)
+                open()
                 showInfo("visible")
             }
         }
@@ -61,18 +94,28 @@ export const LeftSideBar = ({visible}: LeftSideBarProps) => {
         return () => {
             window.removeEventListener('resize', checkWindowSize);
         }
-    }, [visible, _visible])
+    }, [visible])
 
     return (
-        <Navbar className={classes.navbar} p="md"
-                width={{
-                    sm: 300,
-                    lg: 400,
-                }}
-        >
-            <AppButton onClick={() => setVisible(false)}>Hide</AppButton>
-            <Text>Application navbar</Text>
-        </Navbar>
+        <div>
+            <Navbar ref={navbarRef}
+                    className={classes.navbar}
+                    p="md"
+                    width={{
+                        sm: 300,
+                        lg: 400,
+                    }}
+            >
+                <AppButton onClick={() => handleClickVisible(false)}>Hide</AppButton>
+                <Text>Application navbar</Text>
+            </Navbar>
+            <AppButton onClick={() => handleClickVisible(true)} className={classes.button}>
+                <ul>
+                    <li><IconArrowBadgeRight/></li>
+                    <li><IconArrowBadgeRight/></li>
+                </ul>
+            </AppButton>
+        </div>
     )
 }
 

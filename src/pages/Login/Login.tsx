@@ -1,5 +1,4 @@
 import React, {FC} from 'react';
-import './login.scss'
 import {AuthByPhoneFeature} from "../../features/auth/by-username";
 
 const Login: FC = () => {

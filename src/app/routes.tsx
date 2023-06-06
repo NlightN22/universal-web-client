@@ -2,6 +2,7 @@ import Main from "../pages/Main";
 import React, {JSX} from "react";
 import Login from "../pages/Login/Login";
 import TestPage from "../pages/Test/test";
+import DefaultAppShell from "../pages/Test/DefaultAppShell";
 
 export const LOGIN_ROUTE = '/login'
 export const ALL_STATUS_ROUTE = '/monitors'
